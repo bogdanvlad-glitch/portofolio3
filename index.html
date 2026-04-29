@@ -108,22 +108,27 @@
     }
 
     .brand {
-      display: grid;
-      gap: 2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 190px;
     }
 
-    .brand strong {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 24px;
-      font-weight: 400;
-      letter-spacing: -0.04em;
+    .brand-logo {
+      width: 230px;
+      max-width: 38vw;
+      height: auto;
+      display: block;
+      object-fit: contain;
     }
 
-    .brand small {
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
+    .brand-logo-mini {
+      width: 210px;
+      max-width: 60vw;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
     }
 
     .nav-links {
@@ -864,6 +869,10 @@
       letter-spacing: -0.04em;
     }
 
+    .footer-brand {
+      margin-bottom: 12px;
+    }
+
     .footer p {
       color: rgba(255, 250, 241, 0.62);
       max-width: 580px;
@@ -946,6 +955,11 @@
     }
 
     @media (max-width: 680px) {
+      .brand-logo {
+        width: 180px;
+        max-width: 58vw;
+      }
+
       .top-strip span {
         padding: 9px 16px;
       }
@@ -1019,9 +1033,8 @@
 
   <header class="header">
     <div class="container nav">
-      <a href="#" class="brand" data-page="accueil">
-        <strong>La Verrière Montaigne</strong>
-        <small>Maison de cuisine — Paris</small>
+      <a href="#" class="brand" data-page="accueil" aria-label="Accueil La Verrière Montaigne">
+        <img src="logo.png" alt="La Verrière Montaigne" class="brand-logo" />
       </a>
 
       <button class="mobile-btn" id="mobileBtn">☰</button>
@@ -1515,7 +1528,9 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div>
-        <h2>La Verrière Montaigne</h2>
+        <div class="footer-brand">
+          <img src="logo.png" alt="La Verrière Montaigne" class="brand-logo-mini" />
+        </div>
         <p>Site vitrine fictif pour un restaurant luxueux à Paris. Direction artistique claire, éditoriale et moins conventionnelle.</p>
       </div>
       <div class="footer-links">
