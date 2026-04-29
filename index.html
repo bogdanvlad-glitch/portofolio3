@@ -1,0 +1,637 @@
+import React, { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Calendar,
+  ChevronRight,
+  Clock,
+  Diamond,
+  Mail,
+  MapPin,
+  Menu as MenuIcon,
+  Phone,
+  Sparkles,
+  Star,
+  Utensils,
+  Wine,
+  X,
+} from "lucide-react";
+
+const navItems = [
+  { id: "accueil", label: "Accueil" },
+  { id: "maison", label: "La Maison" },
+  { id: "carte", label: "Carte" },
+  { id: "experiences", label: "Expériences" },
+  { id: "privatisation", label: "Privatisation" },
+  { id: "contact", label: "Contact" },
+];
+
+const tastingMenu = [
+  {
+    name: "Éveil des Jardins de Versailles",
+    description: "Asperges blanches, sabayon au champagne, herbes fines et caviar osciètre.",
+    price: "42 €",
+  },
+  {
+    name: "Saint-Jacques nacrées",
+    description: "Noix snackées, beurre noisette, voile de truffe noire et citron de Menton.",
+    price: "58 €",
+  },
+  {
+    name: "Homard bleu de Bretagne",
+    description: "Rôti au sautoir, bisque réduite, jeunes poireaux et huile de vanille Bourbon.",
+    price: "76 €",
+  },
+  {
+    name: "Filet de bœuf maturé 45 jours",
+    description: "Jus corsé au poivre de Kampot, pommes Anna et légumes glacés.",
+    price: "68 €",
+  },
+  {
+    name: "Soufflé Grand Marnier",
+    description: "Crème légère à la fleur d’oranger et sorbet agrumes.",
+    price: "24 €",
+  },
+];
+
+const signatures = [
+  "Cuisine française contemporaine",
+  "Cave de 1 200 références",
+  "Salon privé jusqu’à 18 invités",
+  "Service voiturier sur réservation",
+];
+
+const experiences = [
+  {
+    icon: Wine,
+    title: "Accord mets & grands crus",
+    text: "Un parcours orchestré par notre chef sommelier autour de millésimes rares et domaines confidentiels.",
+  },
+  {
+    icon: Utensils,
+    title: "Table du Chef",
+    text: "Six places face à la brigade, pour vivre le rythme d’un service gastronomique au plus près de la création.",
+  },
+  {
+    icon: Sparkles,
+    title: "Soirées haute couture",
+    text: "Dîners saisonniers inspirés par les maisons de couture parisiennes, entre gastronomie, art floral et musique live.",
+  },
+];
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+function PageShell({ children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+      className="min-h-[calc(100vh-92px)]"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function SectionTitle({ eyebrow, title, children, center = false }) {
+  return (
+    <div className={classNames("mb-12", center && "mx-auto max-w-3xl text-center")}>
+      <div className={classNames("mb-4 flex items-center gap-3", center && "justify-center")}>
+        <span className="h-px w-10 bg-amber-300/70" />
+        <p className="font-serif text-sm uppercase tracking-[0.35em] text-amber-200/90">{eyebrow}</p>
+        <span className="h-px w-10 bg-amber-300/70" />
+      </div>
+      <h2 className="font-serif text-4xl text-white md:text-6xl">{title}</h2>
+      {children && <p className="mt-5 text-base leading-8 text-stone-300 md:text-lg">{children}</p>}
+    </div>
+  );
+}
+
+function Header({ active, setActive }) {
+  const [open, setOpen] = useState(false);
+
+  const goTo = (id) => {
+    setActive(id);
+    setOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-stone-950/80 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
+        <button onClick={() => goTo("accueil")} className="group flex items-center gap-3 text-left">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-amber-200/40 bg-amber-200/10 text-amber-100 shadow-[0_0_35px_rgba(251,191,36,0.12)]">
+            <Diamond size={19} />
+          </div>
+          <div>
+            <p className="font-serif text-xl tracking-[0.28em] text-white">ÉLYSÉE NOIR</p>
+            <p className="text-xs uppercase tracking-[0.34em] text-amber-100/60">Paris VIII</p>
+          </div>
+        </button>
+
+        <nav className="hidden items-center gap-1 lg:flex">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => goTo(item.id)}
+              className={classNames(
+                "rounded-full px-4 py-2 text-sm transition",
+                active === item.id
+                  ? "bg-amber-200 text-stone-950"
+                  : "text-stone-300 hover:bg-white/10 hover:text-white"
+              )}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        <button
+          onClick={() => goTo("contact")}
+          className="hidden rounded-full border border-amber-200/40 px-5 py-2.5 text-sm text-amber-100 transition hover:bg-amber-200 hover:text-stone-950 lg:inline-flex"
+        >
+          Réserver
+        </button>
+
+        <button
+          onClick={() => setOpen((value) => !value)}
+          className="rounded-full border border-white/10 p-3 text-white lg:hidden"
+          aria-label="Ouvrir le menu"
+        >
+          {open ? <X size={20} /> : <MenuIcon size={20} />}
+        </button>
+      </div>
+
+      {open && (
+        <div className="border-t border-white/10 bg-stone-950 px-5 py-5 lg:hidden">
+          <div className="grid gap-2">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => goTo(item.id)}
+                className={classNames(
+                  "rounded-2xl px-4 py-3 text-left text-sm transition",
+                  active === item.id ? "bg-amber-200 text-stone-950" : "text-stone-300 hover:bg-white/10"
+                )}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
+
+function HomePage({ setActive }) {
+  return (
+    <PageShell>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(245,158,11,0.22),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.12),transparent_30%)]" />
+        <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: "linear-gradient(90deg,#fff 1px,transparent 1px),linear-gradient(#fff 1px,transparent 1px)", backgroundSize: "64px 64px" }} />
+
+        <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 py-20 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-28">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-7 inline-flex items-center gap-3 rounded-full border border-amber-200/25 bg-white/5 px-4 py-2 text-sm text-amber-100"
+            >
+              <Star size={15} className="fill-amber-200 text-amber-200" />
+              Restaurant gastronomique fictif au cœur de Paris
+            </motion.div>
+
+            <h1 className="font-serif text-6xl leading-[0.92] text-white md:text-8xl">
+              Le luxe parisien,
+              <span className="block text-amber-100">servi à la française.</span>
+            </h1>
+
+            <p className="mt-8 max-w-2xl text-lg leading-9 text-stone-300">
+              Élysée Noir est une adresse imaginaire nichée près des Champs-Élysées, pensée comme un écrin de gastronomie, de lumière tamisée et de gestes précis. Une maison fictive, mais conçue pour ressembler à un véritable restaurant d’exception.
+            </p>
+
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <button
+                onClick={() => setActive("carte")}
+                className="group inline-flex items-center justify-center rounded-full bg-amber-200 px-7 py-4 font-medium text-stone-950 shadow-[0_20px_60px_rgba(251,191,36,0.2)] transition hover:bg-amber-100"
+              >
+                Découvrir la carte
+                <ChevronRight className="ml-2 transition group-hover:translate-x-1" size={18} />
+              </button>
+              <button
+                onClick={() => setActive("contact")}
+                className="inline-flex items-center justify-center rounded-full border border-white/15 px-7 py-4 font-medium text-white transition hover:bg-white/10"
+              >
+                Demander une réservation
+              </button>
+            </div>
+
+            <div className="mt-12 grid gap-4 sm:grid-cols-3">
+              {[
+                ["12", "tables seulement"],
+                ["1 200", "références en cave"],
+                ["18", "convives en salon privé"],
+              ].map(([number, label]) => (
+                <div key={label} className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur">
+                  <p className="font-serif text-4xl text-amber-100">{number}</p>
+                  <p className="mt-1 text-sm uppercase tracking-[0.22em] text-stone-400">{label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute -inset-6 rounded-[3rem] bg-amber-200/10 blur-3xl" />
+            <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-stone-900 shadow-2xl">
+              <div className="h-[560px] bg-[linear-gradient(to_bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.72)),url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=85')] bg-cover bg-center" />
+              <div className="absolute bottom-0 left-0 right-0 p-8">
+                <p className="font-serif text-3xl text-white">Dîner signature en 7 services</p>
+                <p className="mt-3 max-w-md text-stone-300">Un parcours gastronomique imaginé autour de produits français rares, de cuissons délicates et d’accords millimétrés.</p>
+              </div>
+            </div>
+            <div className="absolute -right-3 top-10 rounded-3xl border border-amber-200/30 bg-stone-950/90 p-5 text-amber-100 shadow-xl backdrop-blur md:-right-10">
+              <p className="font-serif text-4xl">4.9</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-stone-400">Avis fictifs</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-stone-900/60">
+        <div className="mx-auto grid max-w-7xl gap-4 px-5 py-8 md:grid-cols-4 lg:px-8">
+          {signatures.map((item) => (
+            <div key={item} className="flex items-center gap-3 text-stone-300">
+              <Sparkles className="text-amber-200" size={18} />
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    </PageShell>
+  );
+}
+
+function MaisonPage() {
+  return (
+    <PageShell>
+      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div className="grid gap-5">
+            <div className="overflow-hidden rounded-[2.5rem] border border-white/10">
+              <div className="h-80 bg-[url('https://images.unsplash.com/photo-1559329007-40df8a9345d8?auto=format&fit=crop&w=1200&q=85')] bg-cover bg-center" />
+            </div>
+            <div className="grid grid-cols-2 gap-5">
+              <div className="overflow-hidden rounded-[2rem] border border-white/10">
+                <div className="h-56 bg-[url('https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=800&q=85')] bg-cover bg-center" />
+              </div>
+              <div className="rounded-[2rem] border border-amber-200/20 bg-amber-200/10 p-7">
+                <p className="font-serif text-5xl text-amber-100">Paris</p>
+                <p className="mt-4 text-sm uppercase tracking-[0.26em] text-stone-400">Adresse fictive</p>
+                <p className="mt-3 text-stone-300">18 Avenue des Lumières, 75008 Paris</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <SectionTitle eyebrow="La Maison" title="Une table fictive, une vraie atmosphère.">
+              Élysée Noir imagine le restaurant parisien idéal : moulures anciennes, marbre veiné, velours profond, argenterie discrète et service presque chorégraphié. Tout le site, les informations et les coordonnées sont fictifs, mais chaque détail est pensé pour inspirer confiance et élégance.
+            </SectionTitle>
+
+            <div className="grid gap-5 md:grid-cols-2">
+              {[
+                {
+                  title: "Le décor",
+                  text: "Une salle intime aux lumières basses, ornée de miroirs fumés et de compositions florales saisonnières.",
+                },
+                {
+                  title: "La cuisine",
+                  text: "Une carte française contemporaine, inspirée par les marchés parisiens et les terroirs d’exception.",
+                },
+                {
+                  title: "Le service",
+                  text: "Une équipe attentive, précise et chaleureuse, pensée pour offrir une expérience fluide.",
+                },
+                {
+                  title: "La cave",
+                  text: "Champagnes rares, Bourgognes de collection, Bordeaux anciens et accords sans alcool raffinés.",
+                },
+              ].map((card) => (
+                <div key={card.title} className="rounded-3xl border border-white/10 bg-white/[0.04] p-7">
+                  <h3 className="font-serif text-2xl text-white">{card.title}</h3>
+                  <p className="mt-3 leading-7 text-stone-300">{card.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  );
+}
+
+function CartePage() {
+  return (
+    <PageShell>
+      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <SectionTitle eyebrow="La Carte" title="Saisons, précision, rareté." center>
+          Une proposition fictive inspirée des grandes tables parisiennes, avec plats signature, menu dégustation et accords d’exception.
+        </SectionTitle>
+
+        <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr]">
+          <div className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-6 md:p-10">
+            <div className="mb-8 flex flex-col justify-between gap-4 border-b border-white/10 pb-7 md:flex-row md:items-end">
+              <div>
+                <p className="text-sm uppercase tracking-[0.32em] text-amber-100/80">Menu dégustation</p>
+                <h3 className="mt-2 font-serif text-4xl text-white">Nocturne Parisienne</h3>
+              </div>
+              <div className="rounded-full bg-amber-200 px-5 py-2 text-stone-950">185 € / personne</div>
+            </div>
+
+            <div className="divide-y divide-white/10">
+              {tastingMenu.map((item) => (
+                <div key={item.name} className="grid gap-3 py-7 md:grid-cols-[1fr_auto]">
+                  <div>
+                    <h4 className="font-serif text-2xl text-white">{item.name}</h4>
+                    <p className="mt-2 max-w-2xl leading-7 text-stone-300">{item.description}</p>
+                  </div>
+                  <p className="font-serif text-2xl text-amber-100">{item.price}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-8">
+            <div className="overflow-hidden rounded-[2.5rem] border border-white/10">
+              <div className="h-80 bg-[linear-gradient(to_bottom,rgba(0,0,0,0),rgba(0,0,0,0.55)),url('https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1200&q=85')] bg-cover bg-center" />
+              <div className="bg-stone-900 p-7">
+                <h3 className="font-serif text-3xl text-white">Accords & cave</h3>
+                <p className="mt-3 leading-7 text-stone-300">Accord prestige fictif à partir de 95 €, sélection champagne à partir de 28 € le verre.</p>
+              </div>
+            </div>
+
+            <div className="rounded-[2rem] border border-amber-200/20 bg-amber-200/10 p-8">
+              <p className="text-sm uppercase tracking-[0.3em] text-amber-100/80">Informations</p>
+              <ul className="mt-5 space-y-4 text-stone-300">
+                <li className="flex gap-3"><Clock className="mt-1 text-amber-100" size={18} /> Service dîner de 19h00 à 23h30</li>
+                <li className="flex gap-3"><Calendar className="mt-1 text-amber-100" size={18} /> Fermeture fictive le dimanche et lundi</li>
+                <li className="flex gap-3"><Utensils className="mt-1 text-amber-100" size={18} /> Menu végétal sur demande 48h à l’avance</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  );
+}
+
+function ExperiencesPage() {
+  return (
+    <PageShell>
+      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <SectionTitle eyebrow="Expériences" title="Plus qu’un dîner, un souvenir." center>
+          Chaque moment est pensé comme une scène : accueil, lumière, texture, silence, service et final sucré.
+        </SectionTitle>
+
+        <div className="grid gap-7 md:grid-cols-3">
+          {experiences.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.title} className="group rounded-[2.2rem] border border-white/10 bg-white/[0.04] p-8 transition hover:-translate-y-1 hover:bg-white/[0.07]">
+                <div className="mb-7 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-200 text-stone-950">
+                  <Icon size={24} />
+                </div>
+                <h3 className="font-serif text-3xl text-white">{item.title}</h3>
+                <p className="mt-4 leading-8 text-stone-300">{item.text}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-12 overflow-hidden rounded-[3rem] border border-white/10">
+          <div className="grid lg:grid-cols-2">
+            <div className="min-h-[420px] bg-[url('https://images.unsplash.com/photo-1546039907-7fa05f864c02?auto=format&fit=crop&w=1200&q=85')] bg-cover bg-center" />
+            <div className="bg-stone-900 p-8 md:p-12">
+              <p className="text-sm uppercase tracking-[0.34em] text-amber-100/80">Signature</p>
+              <h3 className="mt-4 font-serif text-5xl text-white">La Table du Chef</h3>
+              <p className="mt-6 leading-8 text-stone-300">
+                Une expérience fictive exclusive pour six personnes : menu improvisé autour des arrivages du jour, interaction avec la brigade et carnet de dégustation personnalisé.
+              </p>
+              <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+                <p className="font-serif text-2xl text-amber-100">À partir de 245 € / personne</p>
+                <p className="mt-2 text-stone-400">Sur réservation fictive uniquement, du mardi au jeudi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  );
+}
+
+function PrivatisationPage({ setActive }) {
+  return (
+    <PageShell>
+      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+          <div>
+            <SectionTitle eyebrow="Privatisation" title="Un écrin pour vos moments rares.">
+              Élysée Noir propose, dans cet univers fictif, plusieurs formats de réception pour dîners d’affaires, lancements de collection, anniversaires élégants ou soirées confidentielles.
+            </SectionTitle>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              {[
+                ["Salon Opale", "8 à 12 convives", "Salon feutré avec table ovale et service dédié."],
+                ["Salon Vendôme", "12 à 18 convives", "Décor marbre et velours, idéal pour un dîner privé."],
+                ["Restaurant complet", "Jusqu’à 54 convives", "Privatisation totale avec menu sur mesure."],
+                ["Cocktail signature", "Jusqu’à 80 invités", "Bouchées gastronomiques, champagne et musique live."],
+              ].map(([title, count, text]) => (
+                <div key={title} className="rounded-3xl border border-white/10 bg-white/[0.04] p-7">
+                  <p className="font-serif text-2xl text-white">{title}</p>
+                  <p className="mt-2 text-amber-100">{count}</p>
+                  <p className="mt-4 leading-7 text-stone-300">{text}</p>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setActive("contact")}
+              className="mt-9 inline-flex items-center rounded-full bg-amber-200 px-7 py-4 font-medium text-stone-950 transition hover:bg-amber-100"
+            >
+              Demander un devis fictif
+              <ChevronRight className="ml-2" size={18} />
+            </button>
+          </div>
+
+          <div className="relative">
+            <div className="absolute -inset-6 rounded-[3rem] bg-amber-200/10 blur-3xl" />
+            <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10">
+              <div className="h-[600px] bg-[linear-gradient(to_bottom,rgba(0,0,0,0.03),rgba(0,0,0,0.58)),url('https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1200&q=85')] bg-cover bg-center" />
+              <div className="absolute bottom-0 p-8">
+                <p className="font-serif text-4xl text-white">Événements privés</p>
+                <p className="mt-3 max-w-sm text-stone-300">Menus personnalisés, fleurs, accords, scénographie et accueil voiturier fictif.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  );
+}
+
+function ContactPage() {
+  return (
+    <PageShell>
+      <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <SectionTitle eyebrow="Contact" title="Réserver une table" center>
+          Coordonnées, adresse et formulaire ci-dessous sont entièrement fictifs, créés pour donner au site l’apparence d’une vraie adresse de luxe.
+        </SectionTitle>
+
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-8 md:p-10">
+            <h3 className="font-serif text-4xl text-white">Élysée Noir</h3>
+            <p className="mt-4 leading-8 text-stone-300">
+              18 Avenue des Lumières<br />75008 Paris, France
+            </p>
+
+            <div className="mt-8 space-y-5">
+              <div className="flex gap-4 text-stone-300">
+                <MapPin className="mt-1 text-amber-100" size={20} />
+                <span>À deux pas des Champs-Élysées — adresse fictive</span>
+              </div>
+              <div className="flex gap-4 text-stone-300">
+                <Phone className="mt-1 text-amber-100" size={20} />
+                <span>+33 1 88 44 27 90</span>
+              </div>
+              <div className="flex gap-4 text-stone-300">
+                <Mail className="mt-1 text-amber-100" size={20} />
+                <span>reservation@elysee-noir-paris.fr</span>
+              </div>
+              <div className="flex gap-4 text-stone-300">
+                <Clock className="mt-1 text-amber-100" size={20} />
+                <span>Mardi — samedi, 19h00 à 23h30</span>
+              </div>
+            </div>
+
+            <div className="mt-10 overflow-hidden rounded-[2rem] border border-white/10">
+              <div className="flex h-72 items-center justify-center bg-[radial-gradient(circle_at_center,rgba(251,191,36,0.18),transparent_45%),linear-gradient(135deg,#1c1917,#0c0a09)] p-8 text-center">
+                <div>
+                  <MapPin className="mx-auto text-amber-100" size={34} />
+                  <p className="mt-4 font-serif text-3xl text-white">Carte fictive</p>
+                  <p className="mt-2 text-stone-400">Paris VIII — Avenue des Lumières</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <form className="rounded-[2.5rem] border border-white/10 bg-stone-900 p-8 md:p-10" onSubmit={(event) => event.preventDefault()}>
+            <div className="grid gap-5 md:grid-cols-2">
+              <label className="grid gap-2 text-sm text-stone-300">
+                Nom complet
+                <input className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none transition placeholder:text-stone-500 focus:border-amber-200/60" placeholder="Camille Durand" />
+              </label>
+              <label className="grid gap-2 text-sm text-stone-300">
+                Téléphone
+                <input className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none transition placeholder:text-stone-500 focus:border-amber-200/60" placeholder="+33 6 12 34 56 78" />
+              </label>
+              <label className="grid gap-2 text-sm text-stone-300">
+                Email
+                <input type="email" className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none transition placeholder:text-stone-500 focus:border-amber-200/60" placeholder="vous@email.com" />
+              </label>
+              <label className="grid gap-2 text-sm text-stone-300">
+                Nombre de convives
+                <select className="rounded-2xl border border-white/10 bg-stone-950 px-4 py-3 text-white outline-none transition focus:border-amber-200/60">
+                  <option>2 personnes</option>
+                  <option>4 personnes</option>
+                  <option>6 personnes</option>
+                  <option>Salon privé</option>
+                </select>
+              </label>
+              <label className="grid gap-2 text-sm text-stone-300">
+                Date souhaitée
+                <input type="date" className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none transition focus:border-amber-200/60" />
+              </label>
+              <label className="grid gap-2 text-sm text-stone-300">
+                Horaire
+                <select className="rounded-2xl border border-white/10 bg-stone-950 px-4 py-3 text-white outline-none transition focus:border-amber-200/60">
+                  <option>19h00</option>
+                  <option>20h00</option>
+                  <option>21h00</option>
+                  <option>22h00</option>
+                </select>
+              </label>
+            </div>
+
+            <label className="mt-5 grid gap-2 text-sm text-stone-300">
+              Message
+              <textarea rows={6} className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none transition placeholder:text-stone-500 focus:border-amber-200/60" placeholder="Allergies, occasion spéciale, demande de salon privé..." />
+            </label>
+
+            <button className="mt-7 w-full rounded-full bg-amber-200 px-7 py-4 font-medium text-stone-950 transition hover:bg-amber-100">
+              Envoyer une demande fictive
+            </button>
+
+            <p className="mt-5 text-center text-sm leading-6 text-stone-500">
+              Ce formulaire est décoratif dans cette maquette. Aucune réservation réelle ne sera envoyée.
+            </p>
+          </form>
+        </div>
+      </section>
+    </PageShell>
+  );
+}
+
+function Footer({ setActive }) {
+  return (
+    <footer className="border-t border-white/10 bg-stone-950">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 md:grid-cols-[1fr_auto] lg:px-8">
+        <div>
+          <p className="font-serif text-3xl tracking-[0.2em] text-white">ÉLYSÉE NOIR</p>
+          <p className="mt-3 max-w-xl leading-7 text-stone-400">
+            Site vitrine fictif pour un restaurant luxueux situé à Paris. Design, identité, textes, coordonnées et réservations sont imaginaires.
+          </p>
+        </div>
+        <div className="grid gap-2 sm:grid-cols-3 md:text-right">
+          {["carte", "privatisation", "contact"].map((id) => (
+            <button key={id} onClick={() => setActive(id)} className="text-stone-400 transition hover:text-amber-100">
+              {navItems.find((item) => item.id === id)?.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export default function App() {
+  const [active, setActive] = useState("accueil");
+
+  const page = useMemo(() => {
+    switch (active) {
+      case "maison":
+        return <MaisonPage />;
+      case "carte":
+        return <CartePage />;
+      case "experiences":
+        return <ExperiencesPage />;
+      case "privatisation":
+        return <PrivatisationPage setActive={setActive} />;
+      case "contact":
+        return <ContactPage />;
+      default:
+        return <HomePage setActive={setActive} />;
+    }
+  }, [active]);
+
+  return (
+    <main className="min-h-screen bg-stone-950 text-white selection:bg-amber-200 selection:text-stone-950">
+      <Header active={active} setActive={setActive} />
+      <AnimatePresence mode="wait">{React.cloneElement(page, { key: active })}</AnimatePresence>
+      <Footer setActive={setActive} />
+    </main>
+  );
+}
