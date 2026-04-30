@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Verrière Montaigne — Restaurant fictif à Paris</title>
+  <meta name="description" content="Site vitrine fictif d'un restaurant parisien luxueux au style éditorial." />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="shortcut icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --cream: #f4efe6;
+      --cream-2: #e8ddcf;
+      --paper: #fffaf1;
+      --ink: #211914;
+      --muted: #766b61;
+      --wine: #6f1d2e;
+      --wine-dark: #45111d;
+      --sage: #74806d;
+      --sage-light: #dfe5d8;
+      --line: rgba(33, 25, 20, 0.15);
+      --shadow: 0 28px 90px rgba(69, 17, 29, 0.14);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(111, 29, 46, 0.10), transparent 30%),
+        linear-gradient(135deg, var(--cream), var(--paper));
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.26;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 70%);
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .serif {
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .top-strip {
+      background: var(--wine);
+      color: var(--paper);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .top-strip span {
+      display: inline-block;
+      padding: 10px 28px;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(244, 239, 230, 0.82);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(22px);
+    }
+
+    .nav {
+      min-height: 104px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 240px;
+      height: 82px;
+      padding: 8px 14px;
+      border: 1px solid rgba(33, 25, 20, 0.12);
+      border-radius: 22px;
+      background: rgba(255, 250, 241, 0.82);
+      box-shadow: 0 12px 35px rgba(69, 17, 29, 0.08);
+      overflow: hidden;
+      transition: 0.25s ease;
+    }
+
+    .brand:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 42px rgba(69, 17, 29, 0.12);
+    }
+
+    .brand-logo {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .brand-logo-mini {
+      width: 245px;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .footer-brand {
+      width: fit-content;
+      max-width: 285px;
+      padding: 14px 18px;
+      border-radius: 24px;
+      background: var(--paper);
+      border: 1px solid rgba(255, 250, 241, 0.14);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px;
+      background: rgba(255, 250, 241, 0.72);
+      margin-left: auto;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: 11px 16px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 14px;
+      transition: 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--paper);
+      background: var(--wine);
+    }
+
+    .nav-cta,
+    .btn {
+      border: 1px solid var(--wine);
+      border-radius: 999px;
+      background: var(--wine);
+      color: var(--paper);
+      padding: 13px 20px;
+      cursor: pointer;
+      transition: 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .nav-cta:hover,
+    .btn:hover {
+      transform: translateY(-2px);
+      background: var(--wine-dark);
+      box-shadow: 0 18px 45px rgba(111, 29, 46, 0.18);
+    }
+
+    .btn.alt {
+      background: transparent;
+      color: var(--wine);
+    }
+
+    .btn.alt:hover {
+      background: var(--wine);
+      color: var(--paper);
+    }
+
+    .mobile-btn {
+      display: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 22px;
+    }
+
+    .page {
+      display: none;
+      animation: pageIn 0.42s ease both;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes pageIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero {
+      padding: 64px 0 84px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 0.86fr 1.14fr;
+      gap: 44px;
+      align-items: stretch;
+    }
+
+    .hero-copy {
+      min-height: 650px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 241, 0.8);
+      border-radius: 38px;
+      padding: 36px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy::after {
+      content: "LV";
+      position: absolute;
+      right: -22px;
+      bottom: -46px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 220px;
+      color: rgba(111, 29, 46, 0.055);
+      line-height: 1;
+    }
+
+    .issue {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--wine);
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .issue::before {
+      content: "";
+      width: 42px;
+      height: 1px;
+      background: var(--wine);
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin-top: 30px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(58px, 8vw, 114px);
+      line-height: 0.86;
+      letter-spacing: -0.08em;
+      font-weight: 400;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--wine);
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.9;
+      margin-top: 28px;
+    }
+
+    .hero-actions {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .hero-aside {
+      display: grid;
+      grid-template-columns: 1fr 0.52fr;
+      gap: 18px;
+      min-height: 650px;
+    }
+
+    .main-photo {
+      border-radius: 42px;
+      overflow: hidden;
+      background:
+        linear-gradient(to bottom, rgba(33, 25, 20, 0.05), rgba(33, 25, 20, 0.52)),
+        url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=85") center/cover;
+      display: flex;
+      align-items: flex-end;
+      padding: 30px;
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .main-photo h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 42px;
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .stacked {
+      display: grid;
+      gap: 18px;
+    }
+
+    .mini-photo,
+    .reservation-card {
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .mini-photo {
+      background: url("https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=900&q=85") center/cover;
+      min-height: 270px;
+    }
+
+    .reservation-card {
+      background: var(--sage-light);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .reservation-card small {
+      color: var(--sage);
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      font-size: 12px;
+    }
+
+    .reservation-card strong {
+      display: block;
+      margin: 16px 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 42px;
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .reservation-card p {
+      color: #535b4e;
+      line-height: 1.7;
+    }
+
+    .editorial-strip {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 250, 241, 0.62);
+    }
+
+    .strip-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .strip-item {
+      padding: 28px;
+      border-right: 1px solid var(--line);
+    }
+
+    .strip-item:last-child {
+      border-right: 0;
+    }
+
+    .strip-item strong {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--wine);
+      font-size: 30px;
+      font-weight: 400;
+    }
+
+    .strip-item span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .section {
+      padding: 88px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.7fr 1fr;
+      gap: 34px;
+      align-items: end;
+      margin-bottom: 42px;
+    }
+
+    .kicker {
+      color: var(--wine);
+      font-size: 13px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+    }
+
+    .section-head h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(44px, 6vw, 76px);
+      line-height: 0.95;
+      font-weight: 400;
+      letter-spacing: -0.055em;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 17px;
+    }
+
+    .story-layout {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 26px;
+    }
+
+    .portrait-card {
+      min-height: 560px;
+      border-radius: 42px;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.42)),
+        url("https://images.unsplash.com/photo-1559329007-40df8a9345d8?auto=format&fit=crop&w=1100&q=85") center/cover;
+      box-shadow: var(--shadow);
+    }
+
+    .story-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .text-card {
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 241, 0.78);
+      border-radius: 32px;
+      padding: 30px;
+    }
+
+    .text-card.featured {
+      grid-column: 1 / -1;
+      background: var(--wine);
+      color: var(--paper);
+    }
+
+    .text-card h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .text-card p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .text-card.featured p {
+      color: rgba(255, 250, 241, 0.78);
+    }
+
+    .menu-board {
+      border: 1px solid var(--line);
+      border-radius: 44px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .menu-title-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 20px;
+      padding: 32px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(223,229,216,0.85), rgba(255,250,241,0.9));
+    }
+
+    .menu-title-row h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 44px;
+      font-weight: 400;
+      letter-spacing: -0.04em;
+    }
+
+    .menu-price {
+      color: var(--paper);
+      background: var(--wine);
+      border-radius: 999px;
+      padding: 12px 18px;
+      white-space: nowrap;
+    }
+
+    .dishes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dish {
+      padding: 30px;
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+    }
+
+    .dish:nth-child(2n) {
+      border-right: 0;
+    }
+
+    .dish:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+
+    .dish-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .dish h4 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: 27px;
+    }
+
+    .dish strong {
+      color: var(--wine);
+      white-space: nowrap;
+      font-weight: 400;
+    }
+
+    .dish p {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .menu-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .menu-highlight {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 28px;
+      background: rgba(255, 250, 241, 0.8);
+    }
+
+    .menu-highlight.dark {
+      background: var(--wine);
+      color: var(--paper);
+    }
+
+    .menu-highlight small {
+      color: var(--wine);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 12px;
+    }
+
+    .menu-highlight.dark small {
+      color: rgba(255, 250, 241, 0.7);
+    }
+
+    .menu-highlight h3 {
+      margin-top: 12px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .menu-highlight p {
+      margin-top: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .menu-highlight.dark p {
+      color: rgba(255, 250, 241, 0.75);
+    }
+
+    .menu-category {
+      border-top: 1px solid var(--line);
+    }
+
+    .category-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 22px;
+      padding: 28px 32px;
+      background: rgba(223, 229, 216, 0.42);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .category-heading h4 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 36px;
+      font-weight: 400;
+      letter-spacing: -0.04em;
+    }
+
+    .category-heading span {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+      line-height: 1.5;
+    }
+
+    .menu-note-box {
+      margin-top: 22px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      padding: 28px;
+      background: var(--sage-light);
+      color: #535b4e;
+      line-height: 1.75;
+    }
+
+    .menu-note-box strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      font-size: 28px;
+      font-weight: 400;
+    }
+
+    .salons-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+    }
+
+    .salon-large {
+      min-height: 560px;
+      border-radius: 44px;
+      padding: 32px;
+      color: white;
+      background:
+        linear-gradient(to bottom, rgba(33, 25, 20, 0.05), rgba(33, 25, 20, 0.68)),
+        url("https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1200&q=85") center/cover;
+      display: flex;
+      align-items: flex-end;
+      box-shadow: var(--shadow);
+    }
+
+    .salon-large h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 54px;
+      font-weight: 400;
+      line-height: 0.98;
+      margin-bottom: 14px;
+    }
+
+    .salon-large p {
+      max-width: 520px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.75;
+    }
+
+    .salon-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .salon-item {
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 241, 0.78);
+      border-radius: 30px;
+      padding: 28px;
+    }
+
+    .salon-item h4 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 32px;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+
+    .salon-item small {
+      color: var(--wine);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .salon-item p {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 26px;
+    }
+
+    .contact-panel,
+    .booking-form {
+      border: 1px solid var(--line);
+      border-radius: 42px;
+      background: rgba(255, 250, 241, 0.82);
+      padding: 34px;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-panel h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 46px;
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: 22px;
+    }
+
+    .contact-line {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .contact-line strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .real-map {
+      margin-top: 24px;
+      height: 300px;
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--cream-2);
+    }
+
+    .real-map iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      filter: saturate(0.85) contrast(0.96);
+    }
+
+    .map-caption {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    label {
+      display: grid;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(244, 239, 230, 0.72);
+      border-radius: 18px;
+      padding: 15px 16px;
+      color: var(--ink);
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--wine);
+      box-shadow: 0 0 0 4px rgba(111, 29, 46, 0.08);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .form-note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .footer {
+      margin-top: 70px;
+      border-top: 1px solid var(--line);
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .footer-inner {
+      padding: 44px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    .footer h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: -0.04em;
+    }
+
+    .footer-brand {
+      margin-bottom: 12px;
+    }
+
+    .footer p {
+      color: rgba(255, 250, 241, 0.62);
+      max-width: 580px;
+      margin-top: 10px;
+      line-height: 1.7;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      color: rgba(255, 250, 241, 0.7);
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    @media (max-width: 980px) {
+      .menu-intro {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        position: absolute;
+        top: 104px;
+        left: 18px;
+        right: 18px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 28px;
+        padding: 12px;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .mobile-btn {
+        display: block;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      .hero-grid,
+      .hero-aside,
+      .section-head,
+      .story-layout,
+      .salons-grid,
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy,
+      .hero-aside {
+        min-height: auto;
+      }
+
+      .hero-copy {
+        padding: 30px;
+      }
+
+      .main-photo {
+        min-height: 520px;
+      }
+
+      .strip-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .strip-item:nth-child(2) {
+        border-right: 0;
+      }
+
+      .strip-item:nth-child(-n + 2) {
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .brand {
+        width: 190px;
+        height: 70px;
+        padding: 7px 10px;
+      }
+
+      .brand-logo {
+        width: 100%;
+        max-width: none;
+      }
+
+      .footer-brand {
+        max-width: 230px;
+      }
+
+      .top-strip span {
+        padding: 9px 16px;
+      }
+
+      h1 {
+        font-size: 60px;
+      }
+
+      .hero {
+        padding-top: 36px;
+      }
+
+      .strip-grid,
+      .story-cards,
+      .dishes,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .strip-item,
+      .strip-item:nth-child(2) {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .strip-item:last-child {
+        border-bottom: 0;
+      }
+
+      .dish,
+      .dish:nth-child(2n) {
+        border-right: 0;
+      }
+
+      .dish:nth-last-child(2) {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .menu-title-row {
+        display: block;
+      }
+
+      .menu-price {
+        display: inline-block;
+        margin-top: 16px;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .footer-inner {
+        display: block;
+      }
+
+      .footer-links {
+        margin-top: 24px;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-strip">
+    <span>Restaurant fictif — Paris VIII</span>
+    <span>Déjeuner privé</span>
+    <span>Salon confidentiel</span>
+    <span>Cuisine française moderne</span>
+    <span>Restaurant fictif — Paris VIII</span>
+  </div>
+
+  <header class="header">
+    <div class="container nav">
+      <a href="#" class="brand" data-page="accueil" aria-label="Accueil La Verrière Montaigne">
+        <img src="logo.png" alt="La Verrière Montaigne" class="brand-logo" />
+      </a>
+
+      <button class="mobile-btn" id="mobileBtn">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#" class="active" data-page="accueil">Accueil</a></li>
+        <li><a href="#" data-page="maison">Maison</a></li>
+        <li><a href="#" data-page="carte">Carte</a></li>
+        <li><a href="#" data-page="salons">Salons privés</a></li>
+        <li><a href="#" data-page="contact">Réserver</a></li>
+      </ul>
+
+      <a href="#" class="nav-cta" data-page="contact">Demande de table</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="accueil" class="page active">
+      <div class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <div>
+              <div class="issue">Édition fictive 2026</div>
+              <h1>Une table <em>secrète</em> sous verrière.</h1>
+              <p class="hero-text">
+                Restaurant fictif situé dans le quartier Montaigne, La Verrière imagine une gastronomie française lumineuse, plus douce, plus éditoriale, loin du luxe sombre habituel.
+              </p>
+              <div class="hero-actions">
+                <a href="#" class="btn" data-page="carte">Voir la carte</a>
+                <a href="#" class="btn alt" data-page="maison">Découvrir la maison</a>
+              </div>
+            </div>
+
+            <div class="reservation-card">
+              <small>Coordonnées fictives</small>
+              <strong>12 passage de la Verrière<br />75008 Paris</strong>
+              <p>Ouvert du mardi au samedi, déjeuner confidentiel et dîner sur réservation.</p>
+            </div>
+          </div>
+
+          <div class="hero-aside">
+            <div class="main-photo">
+              <div>
+                <h2>Déjeuner haute couture</h2>
+                <p>Une atmosphère claire, végétale, parisienne.</p>
+              </div>
+            </div>
+            <div class="stacked">
+              <div class="mini-photo"></div>
+              <div class="reservation-card">
+                <small>Menu signature</small>
+                <strong>165 €</strong>
+                <p>Six services, accord boissons sans alcool possible, produits de saison.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="editorial-strip">
+        <div class="container strip-grid">
+          <div class="strip-item">
+            <strong>28</strong>
+            <span>couverts dans une salle volontairement intime</span>
+          </div>
+          <div class="strip-item">
+            <strong>3</strong>
+            <span>salons privés inspirés des appartements parisiens</span>
+          </div>
+          <div class="strip-item">
+            <strong>420</strong>
+            <span>références imaginaires en cave française</span>
+          </div>
+          <div class="strip-item">
+            <strong>100%</strong>
+            <span>adresse, carte et contacts totalement fictifs</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="maison" class="page section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">La maison</div>
+            <h2>Un luxe plus discret, presque domestique.</h2>
+          </div>
+          <p>
+            Ici, pas de grand décor noir et doré. Le restaurant prend la forme d’un appartement parisien lumineux : pierre claire, banquettes bordeaux, verre ancien, plantes hautes et nappes ivoire.
+          </p>
+        </div>
+
+        <div class="story-layout">
+          <div class="portrait-card"></div>
+          <div class="story-cards">
+            <div class="text-card featured">
+              <h3>Le concept</h3>
+              <p>Une table fictive qui mélange l’élégance d’un magazine de mode, la précision d’une grande maison et la chaleur d’un déjeuner privé.</p>
+            </div>
+            <div class="text-card">
+              <h3>La salle</h3>
+              <p>Verrière imaginaire, fauteuils bas, bibliothèque culinaire et fleurs sauvages composent un décor plus doux que spectaculaire.</p>
+            </div>
+            <div class="text-card">
+              <h3>La cuisine</h3>
+              <p>Une carte française contemporaine, avec sauces courtes, légumes travaillés, poissons nobles et desserts peu sucrés.</p>
+            </div>
+            <div class="text-card">
+              <h3>Le rythme</h3>
+              <p>Service calme, précis, jamais théâtral. L’expérience ressemble à une invitation privée.</p>
+            </div>
+            <div class="text-card">
+              <h3>La cave</h3>
+              <p>Bourgogne, Loire, Champagne et créations sans alcool à base de verjus, infusions et hydrolats.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="carte" class="page section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Carte fictive</div>
+            <h2>Une vraie carte, pensée comme une maison gastronomique.</h2>
+          </div>
+          <p>
+            La carte a été étoffée pour ressembler à celle d’un restaurant premium : menus dégustation, entrées, poissons, viandes, végétal, fromages, desserts, cave et informations de service.
+          </p>
+        </div>
+
+        <div class="menu-intro">
+          <article class="menu-highlight dark">
+            <small>Menu signature</small>
+            <h3>La Serre du Soir — 165 €</h3>
+            <p>Six services autour des produits de saison, amuse-bouche, pré-dessert et mignardises compris. Accord cave fictif : +72 €.</p>
+          </article>
+
+          <article class="menu-highlight">
+            <small>Menu prestige</small>
+            <h3>Verrière Montaigne — 225 €</h3>
+            <p>Huit services, caviar, crustacés, pièce noble, chariot de fromages et dessert signature. Accord grands crus fictif : +120 €.</p>
+          </article>
+        </div>
+
+        <div class="menu-board">
+          <div class="menu-title-row">
+            <div>
+              <div class="kicker">À la carte</div>
+              <h3>Saison printemps / été</h3>
+            </div>
+            <div class="menu-price">Prix fictifs</div>
+          </div>
+
+          <div class="menu-category">
+            <div class="category-heading">
+              <h4>Pour commencer</h4>
+              <span>Entrées fraîches, iodées ou végétales</span>
+            </div>
+            <div class="dishes">
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Radis beurre couture</h4>
+                  <strong>22 €</strong>
+                </div>
+                <p>Radis croquants, beurre monté aux algues, fleur de sel fumée, pain de campagne tiède.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Asperges blanches de Loire</h4>
+                  <strong>34 €</strong>
+                </div>
+                <p>Sabayon léger au champagne, amandes fraîches, oxalis et huile d’estragon.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Langoustines juste saisies</h4>
+                  <strong>46 €</strong>
+                </div>
+                <p>Gel citron vert, bouillon clair de carapaces, pousses de coriandre et fleur de courgette.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Œuf parfait aux morilles</h4>
+                  <strong>32 €</strong>
+                </div>
+                <p>Crème légère au vin jaune, morilles blondes, mouillettes briochées et poivre blanc.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="menu-category">
+            <div class="category-heading">
+              <h4>Poissons & crustacés</h4>
+              <span>Cuissons précises, sauces courtes</span>
+            </div>
+            <div class="dishes">
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Bar de ligne nacré</h4>
+                  <strong>48 €</strong>
+                </div>
+                <p>Citronnelle, fenouil confit, jus de coquillages et huile verte au basilic.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Saint-Pierre rôti</h4>
+                  <strong>62 €</strong>
+                </div>
+                <p>Artichauts violets, beurre mousseux, câpres de Pantelleria et citron confit.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Homard bleu</h4>
+                  <strong>84 €</strong>
+                </div>
+                <p>Queue rôtie, pince en raviole, bisque réduite, jeunes poireaux et vanille Bourbon.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Turbot en cocotte</h4>
+                  <strong>72 €</strong>
+                </div>
+                <p>Pommes fondantes, coquillages, sauce vin blanc et herbes du jardin.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="menu-category">
+            <div class="category-heading">
+              <h4>Terre & végétal</h4>
+              <span>Viandes françaises et assiettes végétales</span>
+            </div>
+            <div class="dishes">
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Volaille de Bresse</h4>
+                  <strong>56 €</strong>
+                </div>
+                <p>Suprême rôti, morilles blondes, jeunes carottes et jus réduit au vin jaune.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Filet de veau fermier</h4>
+                  <strong>64 €</strong>
+                </div>
+                <p>Petits pois à la française, girolles, jus perlé et fleur de thym.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Agneau des Alpilles</h4>
+                  <strong>68 €</strong>
+                </div>
+                <p>Selle rosée, aubergine fumée, condiment olive noire et jus au romarin.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Risotto de céleri</h4>
+                  <strong>39 €</strong>
+                </div>
+                <p>Céleri boule travaillé comme un risotto, parmesan affiné, truffe d’été et oxalis.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="menu-category">
+            <div class="category-heading">
+              <h4>Fromages & douceurs</h4>
+              <span>Final gourmand, peu sucré, très parisien</span>
+            </div>
+            <div class="dishes">
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Chariot de fromages affinés</h4>
+                  <strong>24 €</strong>
+                </div>
+                <p>Sélection fictive de maisons françaises, pain aux noix, confiture de cerise noire.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Fraise, sureau, lait cru</h4>
+                  <strong>18 €</strong>
+                </div>
+                <p>Fraises mara des bois, crème glacée au lait cru, gel de sureau et sablé breton.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Soufflé minute vanille</h4>
+                  <strong>21 €</strong>
+                </div>
+                <p>Vanille de Madagascar, crème anglaise légère et éclats de noisettes caramélisées.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Chocolat grand cru</h4>
+                  <strong>19 €</strong>
+                </div>
+                <p>Crémeux chocolat noir, biscuit cacao, glace café blanc et fleur de sel.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="menu-category">
+            <div class="category-heading">
+              <h4>Cave & boissons</h4>
+              <span>Accords fictifs avec ou sans alcool</span>
+            </div>
+            <div class="dishes">
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Accord maison</h4>
+                  <strong>72 €</strong>
+                </div>
+                <p>Trois verres autour de Loire, Bourgogne et Champagne, sélectionnés selon le menu.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Accord prestige</h4>
+                  <strong>120 €</strong>
+                </div>
+                <p>Cinq verres, millésimes rares fictifs, service au verre et présentation par le sommelier.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Accord sans alcool</h4>
+                  <strong>48 €</strong>
+                </div>
+                <p>Verjus, thé blanc, infusion de feuilles de figuier, hydrolats et jus clarifiés.</p>
+              </article>
+
+              <article class="dish">
+                <div class="dish-top">
+                  <h4>Champagne au verre</h4>
+                  <strong>26 €</strong>
+                </div>
+                <p>Cuvée fictive extra-brut, notes d’agrumes, brioche fine et finale saline.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-note-box">
+          <strong>Informations de service</strong>
+          Les prix et plats sont fictifs. Le menu peut être adapté aux régimes végétariens avec une demande 48h à l’avance. Une sélection sans gluten ou sans lactose peut être proposée selon les disponibilités imaginaires de la maison.
+        </div>
+      </div>
+    </section>
+
+    <section id="salons" class="page section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Salons privés</div>
+            <h2>Recevoir comme dans un appartement parisien.</h2>
+          </div>
+          <p>
+            Pour changer du site vitrine classique, cette page est pensée comme une brochure de privatisation : grands visuels, blocs éditoriaux et formats clairs.
+          </p>
+        </div>
+
+        <div class="salons-grid">
+          <div class="salon-large">
+            <div>
+              <h3>La bibliothèque sous verrière</h3>
+              <p>Un salon fictif pour dîners d’affaires, anniversaires élégants, lancements de marque ou repas de famille confidentiels.</p>
+            </div>
+          </div>
+
+          <div class="salon-list">
+            <article class="salon-item">
+              <small>8 à 10 convives</small>
+              <h4>Salon Amande</h4>
+              <p>Table ronde, murs sauge, lumière naturelle et service dédié.</p>
+            </article>
+            <article class="salon-item">
+              <small>12 à 18 convives</small>
+              <h4>Salon Bordeaux</h4>
+              <p>Grand dîner privé avec menu imprimé, fleurs et accord cave.</p>
+            </article>
+            <article class="salon-item">
+              <small>Jusqu’à 50 convives</small>
+              <h4>Maison complète</h4>
+              <p>Privatisation totale fictive, accueil voiturier imaginaire et scénographie sur mesure.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="page section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Réserver</div>
+            <h2>Une adresse fictive, un rendu crédible.</h2>
+          </div>
+          <p>
+            Le formulaire ne déclenche aucune vraie réservation. Il sert à rendre la maquette réaliste, comme sur le site d’un restaurant premium.
+          </p>
+        </div>
+
+        <div class="contact-layout">
+          <aside class="contact-panel">
+            <h3>La Verrière Montaigne</h3>
+            <div class="contact-line">
+              <strong>Adresse fictive</strong>
+              12 passage de la Verrière, 75008 Paris, France
+            </div>
+            <div class="contact-line">
+              <strong>Téléphone fictif</strong>
+              +33 1 42 77 18 06
+            </div>
+            <div class="contact-line">
+              <strong>Email fictif</strong>
+              bonjour@laverriere-montaigne.fr
+            </div>
+            <div class="contact-line">
+              <strong>Horaires</strong>
+              Mardi — samedi : 12h00 — 14h30 / 19h00 — 23h00
+            </div>
+            <div class="real-map">
+              <iframe
+                title="Carte de La Verrière Montaigne"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=2.2975%2C48.8615%2C2.3150%2C48.8705&layer=mapnik&marker=48.8659%2C2.3064"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+            <p class="map-caption">Carte réelle OpenStreetMap centrée sur le quartier Montaigne. Le marqueur représente une position fictive pour la maquette.</p>
+          </aside>
+
+          <form class="booking-form" id="bookingForm">
+            <div class="form-grid">
+              <label>Nom complet
+                <input type="text" placeholder="Clara Beaumont" />
+              </label>
+              <label>Téléphone
+                <input type="tel" placeholder="+33 6 00 00 00 00" />
+              </label>
+              <label>Email
+                <input type="email" placeholder="vous@email.com" />
+              </label>
+              <label>Nombre de convives
+                <select>
+                  <option>2 personnes</option>
+                  <option>4 personnes</option>
+                  <option>6 personnes</option>
+                  <option>Salon privé</option>
+                  <option>Privatisation complète</option>
+                </select>
+              </label>
+              <label>Date souhaitée
+                <input type="date" />
+              </label>
+              <label>Moment
+                <select>
+                  <option>Déjeuner</option>
+                  <option>Dîner</option>
+                  <option>Événement privé</option>
+                </select>
+              </label>
+              <label class="full">Message
+                <textarea placeholder="Occasion spéciale, allergies, demande particulière..."></textarea>
+              </label>
+            </div>
+            <br />
+            <button class="btn" type="submit" style="width: 100%;">Envoyer la demande fictive</button>
+            <p class="form-note">Aucune donnée n’est envoyée : ce formulaire est uniquement décoratif.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <div class="footer-brand">
+          <img src="logo.png" alt="La Verrière Montaigne" class="brand-logo-mini" />
+        </div>
+        <p>Site vitrine fictif pour un restaurant luxueux à Paris. Direction artistique claire, éditoriale et moins conventionnelle.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#" data-page="maison">Maison</a>
+        <a href="#" data-page="carte">Carte</a>
+        <a href="#" data-page="contact">Réserver</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const links = document.querySelectorAll('[data-page]');
+    const pages = document.querySelectorAll('.page');
+    const navLinks = document.getElementById('navLinks');
+    const mobileBtn = document.getElementById('mobileBtn');
+    const bookingForm = document.getElementById('bookingForm');
+
+    function showPage(pageId) {
+      pages.forEach(page => {
+        page.classList.toggle('active', page.id === pageId);
+      });
+
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.classList.toggle('active', link.dataset.page === pageId);
+      });
+
+      navLinks.classList.remove('open');
+      mobileBtn.textContent = '☰';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    links.forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        const pageId = link.dataset.page;
+        if (pageId) showPage(pageId);
+      });
+    });
+
+    mobileBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      mobileBtn.textContent = navLinks.classList.contains('open') ? '×' : '☰';
+    });
+
+    bookingForm.addEventListener('submit', event => {
+      event.preventDefault();
+      alert('Demande fictive envoyée. Formulaire décoratif uniquement.');
+    });
+  </script>
+</body>
+</html>
